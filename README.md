@@ -1,6 +1,9 @@
 # my-app
 Cybereason DevOps Exam -Application repository 
 
+# Description 
+![img_2.png](img_2.png)
+
 # preparations 
 ## 1. Bash aliases and variables  
 ```sh
@@ -28,6 +31,8 @@ aws ecr-public create-repository --region ${ecr_region} --repository-name cybere
 	•	`AWS_ACCESS_KEY_ID`
 	•	`AWS_SECRET_ACCESS_KEY`
 
+![img.png](img.png)
+
 # Task Steps
 ## 1. Create Dockerfile to build the app 
 
@@ -45,9 +50,9 @@ update the image created in the deployment file
 Deploy i locally for test (minikube) 
 
 
-# 4. Checks 
-## Docker image 
-### Send POST,GET requests to check counters 
+## 4.1 Checks 
+### Docker image 
+#### Send POST,GET requests to check counters 
 ```shell
 # Run the docker image 
 docker run -d --rm --name test -p 443:443 TBD/my-app:1.0
@@ -65,7 +70,7 @@ curl localhost:80/
 i.e 
 ![img_1.png](img_1.png)![img.png](img.png)
 
-## Minikube deployment
+### Minikube deployment
 Same checks , after deploy app in local minikube
 ```shell
 # To add POST counts : 
@@ -77,3 +82,42 @@ curl --header "Content-Type: application/json" \
 # To check POST counter status    
 curl localhost:80/     
 ```
+
+## 5. Create github actions pipeline 
+The pipeline will run upon creating a merge request
+
+Pipeline steps 
+![img_3.png](img_3.png)
+
+
+## 6. To check the app
+```shell
+k get all -n $NS 
+```
+![img_4.png](img_4.png)
+
+### 6.1 Verify pod is up 
+### 6.2 check locally 
+```shell
+k exec -it pod/counter-service-696df49bf5-lm8f2 -n cybereason 3008:80
+
+# In another shell tab : 
+curl localhost:3008
+```
+![img_5.png](img_5.png)
+
+![img_6.png](img_6.png)
+
+### 6.3 check app from browser 
+get the loadbalancer external ip and paste in browser 
+
+![img_7.png](img_7.png)
+
+check post request 
+```shell
+curl --header "Content-Type: application/json" \
+     --request POST \
+     --data '{"foo": "bar"}' \
+     http://a67fa679d383a4180b9437967dd9b4b7-1634432038.eu-west-1.elb.amazonaws.com/
+```
+![img_8.png](img_8.png)
