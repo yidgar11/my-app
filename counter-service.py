@@ -19,4 +19,4 @@ def index():
         return str(f"Our counters are: POST: {post_counter}, GET: {get_counter}")
 
 if __name__ == '__main__':
-    app.run(debug=True,port=443,host='0.0.0.0')
+    app.run(debug=True,port=80,host='0.0.0.0')
