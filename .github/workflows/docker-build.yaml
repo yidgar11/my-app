@@ -99,6 +99,7 @@ jobs:
         run: |
           docker push ${{ secrets.ECR_REPOSITORY_URI }}:1.0
 
+
   kubernetes-deploy:
     if: github.ref == 'refs/heads/master'
     name: "Deploy counter-service to Kubernetes"
